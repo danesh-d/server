@@ -6155,7 +6155,8 @@ void TABLE::mark_virtual_columns_for_write(bool insert_fl)
     tmp_vfield= *vfield_ptr;
     if (bitmap_is_set(write_set, tmp_vfield->field_index))
       bitmap_updated= mark_virtual_col(tmp_vfield);
-    else if (tmp_vfield->vcol_info->stored_in_db)
+    else if (tmp_vfield->vcol_info->stored_in_db ||
+             (tmp_vfield->flags & PART_KEY_FLAG))
     {
       bool mark_fl= insert_fl;
       if (!mark_fl)
@@ -6881,7 +6882,6 @@ int update_virtual_fields(THD *thd, TABLE *table,
 {
   DBUG_ENTER("update_virtual_fields");
   Field **vfield_ptr, *vfield;
-  int error __attribute__ ((unused))= 0;
   DBUG_ASSERT(table && table->vfield);
 
   thd->reset_arena_for_cached_items(table->expr_arena);
@@ -6897,7 +6897,7 @@ int update_virtual_fields(THD *thd, TABLE *table,
         vcol_update_mode == VCOL_UPDATE_ALL)
     {
       /* Compute the actual value of the virtual fields */
-      error= vcol_info->expr_item->save_in_field(vfield, 0);
+      vcol_info->expr_item->save_in_field(vfield, 0);
       DBUG_PRINT("info", ("field '%s' - updated", vfield->field_name));
     }
     else
