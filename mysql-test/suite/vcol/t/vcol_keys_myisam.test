@@ -11,6 +11,8 @@ select * from t1 where b=10;
 update t1 set a=20 where b=10;
 select * from t1 where b=10;
 select * from t1 where b=21;
+delete from t1 where b=21;
+select * from t1 where b=21;
 drop table t1;
 
 ################################################################################

@@ -24,6 +24,9 @@ select * from t1 where b=21;
 a	b	c
 20	21	4121
 20	21	9129
+delete from t1 where b=21;
+select * from t1 where b=21;
+a	b	c
 drop table t1;
 SET @@session.storage_engine = 'MyISAM';
 #            - UNIQUE KEY
