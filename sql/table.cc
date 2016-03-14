@@ -6898,7 +6898,8 @@ int update_virtual_fields(THD *thd, TABLE *table,
         break;
       }
     case VCOL_UPDATE_FOR_READ:
-      update= !vcol_info->stored_in_db
+      update= !vcol_info->stored_in_db && !(table->key_read &&
+               vfield->part_of_key.is_set(table->file->active_index))
            && bitmap_is_set(table->vcol_set, vfield->field_index);
       break;
     case VCOL_UPDATE_FOR_WRITE:

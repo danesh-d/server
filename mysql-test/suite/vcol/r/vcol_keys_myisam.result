@@ -17,6 +17,13 @@ Recordlength:                    9
 table description:
 Key Start Len Index   Type
 1   10    4   multip. long NULL            
+update t1 set a=20 where b=10;
+select * from t1 where b=10;
+a	b	c
+select * from t1 where b=21;
+a	b	c
+20	21	4121
+20	21	9129
 drop table t1;
 SET @@session.storage_engine = 'MyISAM';
 #            - UNIQUE KEY

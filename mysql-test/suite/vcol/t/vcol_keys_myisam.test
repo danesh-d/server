@@ -8,6 +8,9 @@ insert t1 (a,c) select seq, sin(seq)*10000 from seq_1_to_1000;
 explain select * from t1 where b=10;
 select * from t1 where b=10;
 --exec $MYISAMCHK -d $datadir/test/t1
+update t1 set a=20 where b=10;
+select * from t1 where b=10;
+select * from t1 where b=21;
 drop table t1;
 
 ################################################################################
