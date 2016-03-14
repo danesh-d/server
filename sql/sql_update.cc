@@ -636,9 +636,7 @@ int mysql_update(THD *thd,
       {
         explain->buf_tracker.on_record_read();
         if (table->vfield)
-          update_virtual_fields(thd, table,
-                                table->triggers ? VCOL_UPDATE_ALL :
-                                                  VCOL_UPDATE_FOR_READ);
+          update_virtual_fields(thd, table, VCOL_UPDATE_FOR_READ_WRITE);
         thd->inc_examined_row_count(1);
 	if (!select || (error= select->skip_record(thd)) > 0)
 	{
@@ -754,9 +752,7 @@ int mysql_update(THD *thd,
   {
     explain->tracker.on_record_read();
     if (table->vfield)
-      update_virtual_fields(thd, table,
-                            table->triggers ? VCOL_UPDATE_ALL :
-                                              VCOL_UPDATE_FOR_READ);
+      update_virtual_fields(thd, table, VCOL_UPDATE_FOR_READ_WRITE);
     thd->inc_examined_row_count(1);
     if (!select || select->skip_record(thd) > 0)
     {
@@ -2433,8 +2429,7 @@ int multi_update::do_updates()
         if (table->default_field && (error= table->update_default_fields()))
           goto err2;
         if (table->vfield &&
-            update_virtual_fields(thd, table,
-                 (table->triggers ? VCOL_UPDATE_ALL : VCOL_UPDATE_FOR_WRITE)))
+            update_virtual_fields(thd, table, VCOL_UPDATE_FOR_WRITE))
           goto err2;
         if ((error= cur_table->view_check_option(thd, ignore)) !=
             VIEW_CHECK_OK)
