@@ -40,6 +40,10 @@ repair table t1 extended;
 select * from t1 where b=11;
 repair table t1 use_frm;
 select * from t1 where b=11;
+update t1 set a=30 where b=11;
+select * from t1 where b=11;
+select * from t1 where b=31;
+
 # myisamchk/repair
 drop table t1;
 
