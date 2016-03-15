@@ -7,6 +7,7 @@ insert t1 (a,c) values (0x7890abcd, 0x76543210);
 insert t1 (a,c) select seq, sin(seq)*10000 from seq_1_to_1000;
 explain select * from t1 where b=10;
 select * from t1 where b=10;
+--replace_result $datadir DATADIR
 --exec $MYISAMCHK -d $datadir/test/t1
 update t1 set a=20 where b=10;
 select * from t1 where b=10;
@@ -44,7 +45,11 @@ update t1 set a=30 where b=11;
 select * from t1 where b=11;
 select * from t1 where b=31;
 
-# myisamchk/repair
+--error 1
+--exec $MYISAMCHK $datadir/test/t1
+--error 1
+--exec $MYISAMCHK -r $datadir/test/t1
+
 drop table t1;
 
 ################################################################################
