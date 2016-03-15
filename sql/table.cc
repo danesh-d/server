@@ -5855,7 +5855,11 @@ void TABLE::mark_columns_needed_for_delete()
     for (reg_field= field ; *reg_field ; reg_field++)
     {
       if ((*reg_field)->flags & PART_KEY_FLAG)
+      {
         bitmap_set_bit(read_set, (*reg_field)->field_index);
+        if ((*reg_field)->vcol_info)
+          mark_virtual_col(*reg_field);
+      }
     }
     need_signal= true;
   }

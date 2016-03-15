@@ -15,7 +15,7 @@ delete from t1 where b=21;
 select * from t1 where b=21;
 alter table t1 add column d char(20) as (concat(a,c));
 select * from t1 where b=11;
-
+create index i on t1 (d);
 check table t1;
 select * from t1 where b=11;
 check table t1 quick;
@@ -40,9 +40,7 @@ repair table t1 extended;
 select * from t1 where b=11;
 repair table t1 use_frm;
 select * from t1 where b=11;
-
-#create index i on t1 (d);
-# check/repair, myisamchk/repair
+# myisamchk/repair
 drop table t1;
 
 ################################################################################
