@@ -6897,6 +6897,7 @@ int update_virtual_fields(THD *thd, TABLE *table,
     switch (vcol_update_mode) {
     case VCOL_UPDATE_FOR_READ_WRITE:
       if (table->triggers)
+#warning assume it is always done after VCOL_UPDATE_FOR_READ?
       {
         update= true;
         break;
